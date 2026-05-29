@@ -1,4 +1,4 @@
-package service;
+package server.service;
 
 import model.Subscription;
 import model.User;
@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MonitoringEngine implements Runnable {
+public class Scheduler implements Runnable {
     private User mockUser;
-    private NotificationDispatcher dispatcher;
+    private NotificationService dispatcher;
 
-    public MonitoringEngine(User mockUser, NotificationDispatcher dispatcher) {
+    public Scheduler(User mockUser, NotificationService dispatcher) {
         this.mockUser = mockUser;
         this.dispatcher = dispatcher;
     }

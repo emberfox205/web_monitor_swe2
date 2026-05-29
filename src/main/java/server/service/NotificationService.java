@@ -1,12 +1,12 @@
-package service;
+package server.service;
 
 import enums.Channel;
 import java.io.PrintWriter;
 
-public class NotificationDispatcher {
+public class NotificationService {
     private PrintWriter clientOut;
 
-    public NotificationDispatcher(PrintWriter clientOut) {
+    public NotificationService(PrintWriter clientOut) {
         this.clientOut = clientOut;
     }
 

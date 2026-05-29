@@ -5,8 +5,8 @@ import enums.Frequency;
 import model.Subscription;
 import model.User;
 import model.Website;
-import service.MonitoringEngine;
-import service.NotificationDispatcher;
+import server.service.Scheduler;
+import server.service.NotificationService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,9 +20,11 @@ public class ServerApp {
     private static Map<String, Website> websiteCache = new HashMap<>();
 
     public static void main(String[] args) throws Exception {
+
+        // Mock user
         User preRegisteredUser = new User("user_001");
         preRegisteredUser.getContactDetails().put(Channel.EMAIL, "user@test.com");
-        preRegisteredUser.getContactDetails().put(Channel.SMS, "+1234567890");
+
 
         System.out.println("Starting Server on port 8080...");
         try (ServerSocket serverSocket = new ServerSocket(8080)) {
@@ -32,11 +34,11 @@ public class ServerApp {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-            NotificationDispatcher dispatcher = new NotificationDispatcher(out);
-            MonitoringEngine engine = new MonitoringEngine(preRegisteredUser, dispatcher);
+            NotificationService dispatcher = new NotificationService(out);
+            Scheduler engine = new Scheduler(preRegisteredUser, dispatcher);
             new Thread(engine).start();
 
-            out.println("Welcome! Commands: ADD <url> <channel> <frequency> | CANCEL <id> | LIST");
+            out.println("Commands: ADD <url> <channel> <frequency> | CANCEL <id> |");
 
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -60,17 +62,11 @@ public class ServerApp {
                             preRegisteredUser.cancelSubscription(tokens[1]);
                             out.println("Cancelled subscription " + tokens[1]);
                             break;
-                        case "LIST":
-                            out.println("Active Subscriptions:");
-                            for (Subscription s : preRegisteredUser.getSubscriptions()) {
-                                if(s.isActive()) out.println("- " + s.getSubscriptionId() + " : " + s.getWebsite().getUrl());
-                            }
-                            break;
                         default:
                             out.println("Unknown command.");
                     }
                 } catch (Exception e) {
-                    out.println("Error processing command. Try: ADD www.example.com EMAIL DEMO_10_SEC");
+                    out.println("Error processing command.");
                 }
             }
         }

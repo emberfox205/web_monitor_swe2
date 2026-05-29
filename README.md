@@ -1,12 +1,6 @@
 # Website Monitoring System
 
-A lightweight, Java-based client-server application that allows users to subscribe to website updates via the command line. The server periodically checks monitored URLs and dispatches mock notifications directly to the connected client terminal.
-
-## Features
-
-* **Client-Server Architecture:** Operates over standard Java Sockets.
-* **Custom Subscriptions:** Users can specify the target URL, notification channel (e.g., EMAIL, SMS), and polling frequency.
-* **Real-time Alerts:** The server automatically pushes notification updates to the active client when changes are "detected."
+A Java-based client-server application that allows users to subscribe to website updates via the command line. The server periodically checks monitored URLs and dispatches mock notifications directly to the connected client terminal.
 
 ## Getting Started
 
@@ -23,14 +17,11 @@ java com.monitor.server.ServerApp
 
 ```
 
-
 3. **Start the Client:** Open a second terminal and execute:
 ```bash
 java com.monitor.client.ClientApp
 
 ```
-
-
 
 ## Usage & Commands
 
@@ -38,10 +29,5 @@ Once the client connects to the server, you can use the following commands in th
 
 * **`ADD <url> <channel> <frequency>`**
   Creates a new subscription.
-  *(Example: `ADD google.com EMAIL DEMO_10_SEC`)*
-* **`LIST`**
-  Displays all of your currently active subscriptions and their IDs.
 * **`CANCEL <subscriptionId>`**
-  Cancels an active subscription using the 8-character ID provided upon creation.
-* **`EXIT`**
-  Disconnects the client and closes the application.
+  Cancels an active subscription using the ID provided upon creation.

@@ -17,6 +17,7 @@ public class User {
         this.subscriptions = new ArrayList<>();
     }
 
+    // getters
     public List<Subscription> getSubscriptions() { return subscriptions; }
     public Map<Channel, String> getContactDetails() { return contactDetails; }
 
